@@ -2,6 +2,9 @@
 {
     public static class AppConstants
     {
+        //Json file path for storing the song catalog.
+        public static string JsonFilePath = "../../../Files/songCatalog.json";
+
         //Variable to keep track of the song number in the catalog listing.
         public static int SongListNumber = 1;
 
@@ -19,5 +22,6 @@
 
         // Constant for song removed successfully message, with placeholders for song title and artist name.
         public const string SongRemovedSuccessfullyMessage = "Song \"{0}\" by \"{1}\" successfully removed from the catalog.";
+
     }
 }

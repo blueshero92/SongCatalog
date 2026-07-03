@@ -12,8 +12,10 @@ namespace SongCatalog
             ICatalogRepository catalogRepository = new CatalogRepository();
             ICatalogService catalogService = new CatalogService(catalogRepository);
 
+            //Load the catalog from the repository to ensure that the catalog is populated with any existing songs before processing commands.
             catalogRepository.LoadCatalog();
 
+            //Read the command from the console and split it into an array of strings.
             args = Console.ReadLine()!.Split('-', StringSplitOptions.RemoveEmptyEntries).ToArray();
 
             //If no command is provided, exit the program.
@@ -22,9 +24,11 @@ namespace SongCatalog
                 Environment.Exit(0);
             }
 
+            //Set the command to the first argument in the array.
             string command = args[0].ToLower();
 
-            while(command != "exit")
+            //Process commands until the user enters "exit".
+            while (command != "exit")
             {
                 switch (command)
                 {
@@ -42,13 +46,16 @@ namespace SongCatalog
 
                 }
 
+                //Read the next command from the console.
                 args = Console.ReadLine()!.Split('-', StringSplitOptions.RemoveEmptyEntries).ToArray();
 
+                //If no command is provided, exit the program.
                 if (args.Length == 0)
                 {
                     Environment.Exit(0);
                 }
 
+                //Set the command to the first argument in the array.
                 command = args[0].ToLower();
             }
             

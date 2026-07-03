@@ -2,12 +2,16 @@
 using SongCatalog.Models;
 using SongCatalog.Repositories.Contracts;
 
+using static SongCatalog.Common.AppConstants;
+
 namespace SongCatalog.Repositories
 {
     public class CatalogRepository : ICatalogRepository
     {
-        private static string path = "../../../Files/songCatalog.json";
+        //The path to the JSON file where the catalog is stored.
+        private static string path = JsonFilePath;
 
+        //The catalog of songs, which is a list of Song objects.
         public List<Song> Catalog { get; private set; } 
             = new List<Song>();
 
