@@ -5,5 +5,7 @@ namespace SongCatalog.Services.Contracts
     {
         void ListCatalog();
         void AddSong(string[] tokens);
+
+        void RemoveSong(string title, string artistName);
     }
 }

@@ -36,6 +36,10 @@ namespace SongCatalog
                         catalogService.AddSong(args);
                         break;
 
+                    case "remove":
+                        catalogService.RemoveSong(args[1], args[2]);
+                        break;
+
                 }
 
                 args = Console.ReadLine()!.Split('-', StringSplitOptions.RemoveEmptyEntries).ToArray();

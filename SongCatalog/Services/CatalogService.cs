@@ -3,6 +3,8 @@ using SongCatalog.Repositories.Contracts;
 using SongCatalog.Services.Contracts;
 using System.Text;
 
+using static SongCatalog.Common.AppConstants;
+
 namespace SongCatalog.Services
 {
     public class CatalogService : ICatalogService
@@ -17,19 +19,27 @@ namespace SongCatalog.Services
         public void ListCatalog()
         {
             //Variable to keep track of the song number in the catalog.
-            int number = 1;
+            int number = SongListNumber;
 
             //StringBuilder to build the output string for the catalog listing.
             StringBuilder sb = new StringBuilder();
 
             sb.AppendLine("My Catalog:");
+            sb.AppendLine("-----------");
 
-            foreach (Song song in catalogRepository.Catalog.OrderBy(s => s.ArtistName.ToLower())
-                                                           .ThenBy(s => s.Title.ToLower())
-                                                           .ThenByDescending(s => s.Rating))
+            if (!catalogRepository.Catalog.Any())
             {
-                sb.AppendLine($"{number}.{song.ArtistName} - {song.Title}, Rating: {song.Rating}");
-                number++;
+                sb.AppendLine(EmptyCatalogMessage);
+            }
+            else
+            {
+                foreach (Song song in catalogRepository.Catalog.OrderBy(s => s.ArtistName.ToLower())
+                                                               .ThenBy(s => s.Title.ToLower())
+                                                               .ThenByDescending(s => s.Rating))
+                {
+                    sb.AppendLine($"{number}.{song.ArtistName} - {song.Title}, Rating: {song.Rating}");
+                    number++;
+                }
             }
 
             //Output the catalog listing to the console, trimming any trailing whitespace.
@@ -51,7 +61,7 @@ namespace SongCatalog.Services
                                                 && s.ArtistName.Equals(artistName, StringComparison.InvariantCultureIgnoreCase)))
             {
                 //If it exists, display a message indicating that the song already exists
-                Console.WriteLine($"Song \"{songTitle}\" by \"{artistName}\" already exists in the catalog.");
+                Console.WriteLine(string.Format(SongAlreadyExistsMessage, songTitle, artistName));
             }
             else
             {
@@ -59,9 +69,30 @@ namespace SongCatalog.Services
                 catalogRepository.Catalog.Add(song);
                 catalogRepository.SaveCatalog();
 
-                Console.WriteLine($"Successfully added song: \"{songTitle}\" by \"{artistName}\".");
+                Console.WriteLine(string.Format(SongAddedSuccessfullyMessage, songTitle, artistName));
             }
 
+        }
+
+        public void RemoveSong(string title, string artistName)
+        {
+            //Find the song in the catalog using case-insensitive comparison for both title and artist name.
+            Song? song = catalogRepository.Catalog.FirstOrDefault(s => s.Title.Equals(title, StringComparison.InvariantCultureIgnoreCase)
+                                                                    && s.ArtistName.Equals(artistName, StringComparison.InvariantCultureIgnoreCase));
+
+            //If the song is found, remove it from the catalog and save the changes.
+            if (song == null)
+            {
+                Console.WriteLine(string.Format(SongNotFoundMessage, title, artistName));
+            }
+            //If the song is not found, display a message indicating that the song was not found.
+            else
+            {
+                catalogRepository.Catalog.Remove(song);
+                catalogRepository.SaveCatalog();
+
+                Console.WriteLine(string.Format(SongRemovedSuccessfullyMessage, title, artistName));
+            }
         }
     }
 }
