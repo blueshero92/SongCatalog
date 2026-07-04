@@ -8,6 +8,15 @@
         //Variable to keep track of the song number in the catalog listing.
         public static int SongListNumber = 1;
 
+        //Constant for the minimum rating value for a song.
+        public const int RatingMinValue = 1;
+
+        //Constant for the maximum rating value for a song.
+        public const int RatingMaxValue = 5;
+
+        // Constant for invalid rating message, with placeholders for minimum and maximum rating values.
+        public const string InvalidRatingMessage = "Rating must be between {0} and {1}.";
+
         //Constant for empty catalog message.
         public const string EmptyCatalogMessage = "The catalog is currently empty.";
 
@@ -31,6 +40,15 @@
 
         // Constant for search results found message.
         public const string ResultsFound = "Search results:";
+
+        // Constant for catalog sorted by artist message.
+        public const string CatalogSortedByArtist = "Catalog sorted by artist name:";
+
+        // Constant for catalog sorted by title message.
+        public const string CatalogSortedByTitle = "Catalog sorted by song title:";
+
+        // Constant for catalog sorted by rating message.
+        public const string CatalogSortedByRating = "Catalog sorted by song rating:";
 
     }
 }

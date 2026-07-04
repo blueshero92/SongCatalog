@@ -56,6 +56,14 @@ namespace SongCatalog.Services
             string artistName = tokens[2];
             int rating = int.Parse(tokens[3]);
 
+            //Check if the rating is within the valid range (1 to 5). If not, display an error message.
+            if (rating < RatingMinValue || rating > RatingMaxValue)
+            {
+                sb.AppendLine(string.Format(InvalidRatingMessage, RatingMinValue, RatingMaxValue));
+
+                return sb.ToString().Trim();
+            }
+
             //Create a new Song object with the provided details.
             Song song = new Song(songTitle, artistName, rating);
 
@@ -135,6 +143,109 @@ namespace SongCatalog.Services
 
                 return results.ToString().Trim();
             }
+        }
+
+        public string SortCatalogByArtist()
+        {
+            //Variable to keep track of the song number in the sorted catalog.
+            int number = SongListNumber;
+
+            //StringBuilder to build the output string for the sorted catalog by artist name.
+            StringBuilder sortedByTitle = new StringBuilder();
+
+            //Sort the catalog by artist name in ascending order (case-insensitive).
+            IEnumerable<Song> sortedCatalog = catalogRepository
+                                             .Catalog
+                                             .OrderBy(s => s.ArtistName.ToLower())
+                                             .ToList();
+
+            //If the sorted catalog is empty, display a message indicating that the catalog is empty.
+            if (!sortedCatalog.Any())
+            {
+                sortedByTitle.AppendLine(EmptyCatalogMessage);
+            }
+            else
+            {
+                //If the sorted catalog is not empty, display the sorted catalog with the artist name and song title.
+                sortedByTitle.AppendLine(CatalogSortedByArtist);
+
+                foreach (Song song in sortedCatalog)
+                {
+                    sortedByTitle.AppendLine($"{number}. {song.ArtistName} - {song.Title} - {song.Rating}");
+
+                    number++;
+                }
+            }
+
+            return sortedByTitle.ToString().Trim();
+        }
+
+        public string SortCatalogByTitle()
+        {
+            //Variable to keep track of the song number in the sorted catalog.
+            int number = SongListNumber;
+
+            //StringBuilder to build the output string for the sorted catalog by title.
+            StringBuilder sortedByTitle = new StringBuilder();
+
+            //Sort the catalog by title in ascending order (case-insensitive).
+            IEnumerable<Song> sortedCatalog = catalogRepository
+                                             .Catalog
+                                             .OrderBy(s => s.Title.ToLower())
+                                             .ToList();
+
+            //If the sorted catalog is empty, display a message indicating that the catalog is empty.
+            if (!sortedCatalog.Any())
+            {
+                sortedByTitle.AppendLine(EmptyCatalogMessage);
+            }
+            else
+            {
+                //If the sorted catalog is not empty, display the sorted catalog with the title and artist name.
+                sortedByTitle.AppendLine(CatalogSortedByTitle);
+
+                foreach (Song song in sortedCatalog)
+                {
+                    sortedByTitle.AppendLine($"{number}. {song.Title} - {song.ArtistName} - {song.Rating}");
+                    number++;
+                }
+            }
+
+            return sortedByTitle.ToString().Trim();
+        }
+
+        public string SortCatalogByRating()
+        {
+            //Variable to keep track of the song number in the sorted catalog.
+            int number = SongListNumber;
+
+            //StringBuilder to build the output string for the sorted catalog by rating.
+            StringBuilder sortedByRating = new StringBuilder();
+
+            //Sort the catalog by rating in descending order.
+            IEnumerable<Song> sortedCatalog = catalogRepository
+                                             .Catalog
+                                             .OrderByDescending(s => s.Rating)
+                                             .ToList();
+
+            //If the sorted catalog is empty, display a message indicating that the catalog is empty.
+            if (!sortedCatalog.Any())
+            {
+                sortedByRating.AppendLine(EmptyCatalogMessage);
+            }
+            else
+            {
+                //If the sorted catalog is not empty, display the sorted catalog with the rating, title, and artist name.
+                sortedByRating.AppendLine(CatalogSortedByRating);
+
+                foreach (Song song in sortedCatalog)
+                {
+                    sortedByRating.AppendLine($"{number}. {song.Title} - {song.ArtistName} - {song.Rating}");
+                    number++;
+                }
+            }
+
+            return sortedByRating.ToString().Trim();
         }
     }
 }

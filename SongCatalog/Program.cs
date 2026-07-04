@@ -9,6 +9,7 @@ namespace SongCatalog
     {
         static void Main(string[] args)
         {
+            //Create an instance of the CatalogRepository and CatalogService classes using Dependency Injection.
             ICatalogRepository catalogRepository = new CatalogRepository();
             ICatalogService catalogService = new CatalogService(catalogRepository);
 
@@ -24,12 +25,12 @@ namespace SongCatalog
                 Environment.Exit(0);
             }
 
-            //Set the command to the first argument in the array.
-            string command = args[0].ToLower();
+            string command;
 
-            //Process commands until the user enters "exit".
-            while (command != "exit")
+            //Set the command to the first argument in the array and process commands until the user enters "exit".
+            while ((command = args[0].ToLower()) != "exit")
             {
+                //Process the command using a switch case and call the appropriate method from the CatalogService class.
                 switch (command)
                 {
                     case "list":
@@ -48,6 +49,17 @@ namespace SongCatalog
                         Console.WriteLine(catalogService.SearchSongs(args[1]));
                         break;
 
+                    case "sort artist":
+                        Console.WriteLine(catalogService.SortCatalogByArtist());
+                        break;
+
+                    case "sort title":
+                        Console.WriteLine(catalogService.SortCatalogByTitle());
+                        break;
+
+                    case "sort rating":
+                        Console.WriteLine(catalogService.SortCatalogByRating());
+                        break;
                 }
 
                 //Read the next command from the console.
@@ -58,9 +70,6 @@ namespace SongCatalog
                 {
                     Environment.Exit(0);
                 }
-
-                //Set the command to the first argument in the array.
-                command = args[0].ToLower();
             }
             
         }

@@ -10,5 +10,11 @@ namespace SongCatalog.Services.Contracts
         string RemoveSong(string title, string artistName);
 
         string SearchSongs(string searchQuery);
+
+        string SortCatalogByArtist();
+
+        string SortCatalogByTitle();
+
+        string SortCatalogByRating();
     }
 }
