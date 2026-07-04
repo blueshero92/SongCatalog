@@ -5,7 +5,7 @@
         //Json file path for storing the song catalog.
         public const string JsonFilePath = "../../../Files/song-catalog.json";
 
-        public const string JsonFilePathFriendCatalog = "../../../Files/friend.json";
+        public const string JsonFilePathFriendCatalog = "../../../Files/friend-catalog.json";
 
         public const string FileDoesNotExistMessage = "File does not exist.";
 

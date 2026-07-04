@@ -21,7 +21,7 @@ namespace SongCatalog
             List<Song> friendCatalog = catalogRepository.LoadCatalog(JsonFilePathFriendCatalog);
 
             //Read the command from the console and split it into an array of strings.
-            args = Console.ReadLine()!.Split('-', StringSplitOptions.RemoveEmptyEntries).ToArray();
+            args = Console.ReadLine()!.Split('#', StringSplitOptions.RemoveEmptyEntries).ToArray();
 
             //If no command is provided, exit the program.
             if (args.Length == 0)
