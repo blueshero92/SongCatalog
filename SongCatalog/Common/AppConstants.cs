@@ -2,11 +2,13 @@
 {
     public static class AppConstants
     {
-        //Json file path for storing the song catalog.
-        public const string JsonFilePath = "../../../Files/song-catalog.json";
+        //Json file path for storing the song catalog. Path.Combine is used to create a platform-independent file path.
+        public static readonly string JsonFilePath = Path.Combine(AppContext.BaseDirectory, "Files", "song-catalog.json");
 
-        public const string JsonFilePathFriendCatalog = "../../../Files/friend-catalog.json";
+        //Json file path for storing the friend catalog. Path.Combine is used to create a platform-independent file path.
+        public static readonly string JsonFilePathFriendCatalog = Path.Combine(AppContext.BaseDirectory, "Files", "friend-catalog.json");
 
+        //Constant for the message displayed when a file does not exist.
         public const string FileDoesNotExistMessage = "File does not exist.";
 
         //Variable to keep track of the song number in the catalog listing.

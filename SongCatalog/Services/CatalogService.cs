@@ -268,6 +268,8 @@ namespace SongCatalog.Services
             List<Song> friendCatalog = catalogRepository.LoadCatalog(filePath);
 
             MergeFriendCatalog(myCatalog, friendCatalog);
+
+            Console.WriteLine(MergeSuccessfulMessage);
         }
     }
 }
