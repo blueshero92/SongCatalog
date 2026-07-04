@@ -1,20 +1,26 @@
 ﻿
+using SongCatalog.Models;
+
 namespace SongCatalog.Services.Contracts
 {
     public interface ICatalogService
     {
-        string ListCatalog();
+        string ListCatalog(List<Song> catalog);
 
-        string AddSong(string[] tokens);
+        string AddSong(string[] tokens, List<Song> catalog);
 
-        string RemoveSong(string title, string artistName);
+        string RemoveSong(string title, string artistName, List<Song> catalog);
 
-        string SearchSongs(string searchQuery);
+        string SearchSongs(string searchQuery, List<Song> catalog);
 
-        string SortCatalogByArtist();
+        string SortCatalogByArtist(List<Song> catalog);
 
-        string SortCatalogByTitle();
+        string SortCatalogByTitle(List<Song> catalog);
 
-        string SortCatalogByRating();
+        string SortCatalogByRating(List<Song> catalog);
+
+        string MergeFriendCatalog(List<Song> myCatalog, List<Song> friendCatalog);
+
+        void MergeExternalCatalog(List<Song> myCatalog, string filePath);
     }
 }

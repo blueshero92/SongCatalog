@@ -1,7 +1,10 @@
-﻿using SongCatalog.Repositories;
+﻿using SongCatalog.Models;
+using SongCatalog.Repositories;
 using SongCatalog.Repositories.Contracts;
 using SongCatalog.Services;
 using SongCatalog.Services.Contracts;
+
+using static SongCatalog.Common.AppConstants;
 
 namespace SongCatalog
 {
@@ -13,8 +16,9 @@ namespace SongCatalog
             ICatalogRepository catalogRepository = new CatalogRepository();
             ICatalogService catalogService = new CatalogService(catalogRepository);
 
-            //Load the catalog from the repository to ensure that the catalog is populated with any existing songs before processing commands.
-            catalogRepository.LoadCatalog();
+            //Load the catalogs from the repository to ensure that they are populated with any existing songs before processing commands.
+            List<Song> myCatalog = catalogRepository.LoadCatalog(JsonFilePath);
+            List<Song> friendCatalog = catalogRepository.LoadCatalog(JsonFilePathFriendCatalog);
 
             //Read the command from the console and split it into an array of strings.
             args = Console.ReadLine()!.Split('-', StringSplitOptions.RemoveEmptyEntries).ToArray();
@@ -27,6 +31,7 @@ namespace SongCatalog
 
             string command;
 
+
             //Set the command to the first argument in the array and process commands until the user enters "exit".
             while ((command = args[0].ToLower()) != "exit")
             {
@@ -34,32 +39,41 @@ namespace SongCatalog
                 switch (command)
                 {
                     case "list":
-                        Console.WriteLine(catalogService.ListCatalog());
+                        Console.WriteLine(catalogService.ListCatalog(myCatalog));
                         break;
 
                     case "add":
-                        Console.WriteLine(catalogService.AddSong(args));
+                        Console.WriteLine(catalogService.AddSong(args, myCatalog));
                         break;
 
                     case "remove":
-                        Console.WriteLine(catalogService.RemoveSong(args[1], args[2]));
+                        Console.WriteLine(catalogService.RemoveSong(args[1], args[2], myCatalog));
                         break;
 
                     case "search":
-                        Console.WriteLine(catalogService.SearchSongs(args[1]));
+                        Console.WriteLine(catalogService.SearchSongs(args[1], myCatalog));
                         break;
 
                     case "sort artist":
-                        Console.WriteLine(catalogService.SortCatalogByArtist());
+                        Console.WriteLine(catalogService.SortCatalogByArtist(myCatalog));
                         break;
 
                     case "sort title":
-                        Console.WriteLine(catalogService.SortCatalogByTitle());
+                        Console.WriteLine(catalogService.SortCatalogByTitle(myCatalog));
                         break;
 
                     case "sort rating":
-                        Console.WriteLine(catalogService.SortCatalogByRating());
+                        Console.WriteLine(catalogService.SortCatalogByRating(myCatalog));
                         break;
+                    //Merge the user's catalog with a hardcoded friend's catalog.
+                    case "merge":
+                        Console.WriteLine(catalogService.MergeFriendCatalog(myCatalog, friendCatalog));
+                        break;
+                    //Merge external catalog from a file path provided as the second argument.
+                    case "merge external":
+                        catalogService.MergeExternalCatalog(myCatalog, args[1]);
+                        break;
+
                 }
 
                 //Read the next command from the console.

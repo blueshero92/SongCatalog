@@ -1,4 +1,5 @@
-﻿using SongCatalog.Models;
+﻿using Newtonsoft.Json;
+using SongCatalog.Models;
 using SongCatalog.Repositories.Contracts;
 using SongCatalog.Services.Contracts;
 using System.Text;
@@ -16,8 +17,9 @@ namespace SongCatalog.Services
             this.catalogRepository = catalogRepository;
         }
 
-        public string ListCatalog()
+        public string ListCatalog(List<Song> catalog)
         {
+
             //Variable to keep track of the song number in the catalog.
             int number = SongListNumber;
 
@@ -27,15 +29,15 @@ namespace SongCatalog.Services
             sb.AppendLine("My Catalog:");
             sb.AppendLine("-----------");
 
-            if (!catalogRepository.Catalog.Any())
+            if (!catalog.Any())
             {
                 sb.AppendLine(EmptyCatalogMessage);
             }
             else
             {
-                foreach (Song song in catalogRepository.Catalog.OrderBy(s => s.ArtistName.ToLower())
-                                                               .ThenBy(s => s.Title.ToLower())
-                                                               .ThenByDescending(s => s.Rating))
+                foreach (Song song in catalog.OrderBy(s => s.ArtistName.ToLower())
+                                             .ThenBy(s => s.Title.ToLower())
+                                             .ThenByDescending(s => s.Rating))
                 {
                     sb.AppendLine($"{number}.{song.ArtistName} - {song.Title}, Rating: {song.Rating}");
                     number++;
@@ -44,9 +46,11 @@ namespace SongCatalog.Services
 
             //Output the catalog listing to the console, trimming any trailing whitespace.
             return sb.ToString().Trim();
+
+
         }
 
-        public string AddSong(string[] tokens)
+        public string AddSong(string[] tokens, List<Song> catalog)
         {
             //StringBuilder to build the output string for messages related to adding a song.
             StringBuilder sb = new StringBuilder();
@@ -68,7 +72,7 @@ namespace SongCatalog.Services
             Song song = new Song(songTitle, artistName, rating);
 
             //Check if the song already exists in the catalog (case-insensitive comparison).           
-            if (catalogRepository.Catalog.Any(s => s.Title.Equals(songTitle, StringComparison.InvariantCultureIgnoreCase) 
+            if (catalog.Any(s => s.Title.Equals(songTitle, StringComparison.InvariantCultureIgnoreCase)
                                                 && s.ArtistName.Equals(artistName, StringComparison.InvariantCultureIgnoreCase)))
             {
                 //If it exists, display a message indicating that the song already exists
@@ -77,8 +81,8 @@ namespace SongCatalog.Services
             else
             {
                 //If it doesn't exist, add the song to the catalog and save the changes.
-                catalogRepository.Catalog.Add(song);
-                catalogRepository.SaveCatalog();
+                catalog.Add(song);
+                catalogRepository.SaveCatalog(JsonFilePath, catalog);
 
                 sb.AppendLine(string.Format(SongAddedSuccessfullyMessage, songTitle, artistName));
             }
@@ -87,13 +91,13 @@ namespace SongCatalog.Services
 
         }
 
-        public string RemoveSong(string title, string artistName)
+        public string RemoveSong(string title, string artistName, List<Song> catalog)
         {
             //StringBuilder to build the output string for messages related to removing a song.
             StringBuilder sb = new StringBuilder();
 
             //Find the song in the catalog using case-insensitive comparison for both title and artist name.
-            Song? song = catalogRepository.Catalog.FirstOrDefault(s => s.Title.Equals(title, StringComparison.InvariantCultureIgnoreCase)
+            Song? song = catalog.FirstOrDefault(s => s.Title.Equals(title, StringComparison.InvariantCultureIgnoreCase)
                                                                     && s.ArtistName.Equals(artistName, StringComparison.InvariantCultureIgnoreCase));
 
             //If the song is found, remove it from the catalog and save the changes.
@@ -104,8 +108,8 @@ namespace SongCatalog.Services
             //If the song is not found, display a message indicating that the song was not found.
             else
             {
-                catalogRepository.Catalog.Remove(song);
-                catalogRepository.SaveCatalog();
+                catalog.Remove(song);
+                catalogRepository.SaveCatalog(JsonFilePath, catalog);
 
                 sb.AppendLine(string.Format(SongRemovedSuccessfullyMessage, title, artistName));
             }
@@ -113,14 +117,13 @@ namespace SongCatalog.Services
             return sb.ToString().Trim();
         }
 
-        public string SearchSongs(string searchQuery)
+        public string SearchSongs(string searchQuery, List<Song> catalog)
         {
             //StringBuilder to build the output string for the search results.
             StringBuilder results = new StringBuilder();
 
             //Search for songs in the catalog that match the search query in either the title or artist name (case-insensitive).
-            IEnumerable<Song> songs = catalogRepository
-                                     .Catalog.Where(s => s.Title.Contains(searchQuery, StringComparison.InvariantCultureIgnoreCase)
+            IEnumerable<Song> songs = catalog.Where(s => s.Title.Contains(searchQuery, StringComparison.InvariantCultureIgnoreCase)
                                                       || s.ArtistName.Contains(searchQuery, StringComparison.InvariantCultureIgnoreCase))
                                              .ToList();
 
@@ -145,7 +148,7 @@ namespace SongCatalog.Services
             }
         }
 
-        public string SortCatalogByArtist()
+        public string SortCatalogByArtist(List<Song> catalog)
         {
             //Variable to keep track of the song number in the sorted catalog.
             int number = SongListNumber;
@@ -154,8 +157,7 @@ namespace SongCatalog.Services
             StringBuilder sortedByTitle = new StringBuilder();
 
             //Sort the catalog by artist name in ascending order (case-insensitive).
-            IEnumerable<Song> sortedCatalog = catalogRepository
-                                             .Catalog
+            IEnumerable<Song> sortedCatalog = catalog
                                              .OrderBy(s => s.ArtistName.ToLower())
                                              .ToList();
 
@@ -180,7 +182,7 @@ namespace SongCatalog.Services
             return sortedByTitle.ToString().Trim();
         }
 
-        public string SortCatalogByTitle()
+        public string SortCatalogByTitle(List<Song> catalog)
         {
             //Variable to keep track of the song number in the sorted catalog.
             int number = SongListNumber;
@@ -189,8 +191,7 @@ namespace SongCatalog.Services
             StringBuilder sortedByTitle = new StringBuilder();
 
             //Sort the catalog by title in ascending order (case-insensitive).
-            IEnumerable<Song> sortedCatalog = catalogRepository
-                                             .Catalog
+            IEnumerable<Song> sortedCatalog = catalog
                                              .OrderBy(s => s.Title.ToLower())
                                              .ToList();
 
@@ -214,7 +215,7 @@ namespace SongCatalog.Services
             return sortedByTitle.ToString().Trim();
         }
 
-        public string SortCatalogByRating()
+        public string SortCatalogByRating(List<Song> catalog)
         {
             //Variable to keep track of the song number in the sorted catalog.
             int number = SongListNumber;
@@ -223,8 +224,7 @@ namespace SongCatalog.Services
             StringBuilder sortedByRating = new StringBuilder();
 
             //Sort the catalog by rating in descending order.
-            IEnumerable<Song> sortedCatalog = catalogRepository
-                                             .Catalog
+            IEnumerable<Song> sortedCatalog = catalog
                                              .OrderByDescending(s => s.Rating)
                                              .ToList();
 
@@ -246,6 +246,28 @@ namespace SongCatalog.Services
             }
 
             return sortedByRating.ToString().Trim();
+        }
+
+        public string MergeFriendCatalog(List<Song> myCatalog, List<Song> friendCatalog)
+        {
+            //Merge the friend's catalog into the user's catalog, avoiding duplicates based on artist name and title (case-insensitive).
+            myCatalog.AddRange(friendCatalog
+                              .Where(s => !myCatalog
+                                          .Any(ms => ms.ArtistName.Equals(s.ArtistName, StringComparison.InvariantCultureIgnoreCase) &&
+                                                     ms.Title.Equals(s.Title, StringComparison.InvariantCultureIgnoreCase))));
+
+            //Save the merged catalog to the JSON file.
+            catalogRepository.SaveCatalog(JsonFilePath, myCatalog);
+
+            return MergeSuccessfulMessage;
+        }
+
+        public void MergeExternalCatalog(List<Song> myCatalog, string filePath)
+        {
+            //Load the friend's catalog from the specified file path.
+            List<Song> friendCatalog = catalogRepository.LoadCatalog(filePath);
+
+            MergeFriendCatalog(myCatalog, friendCatalog);
         }
     }
 }

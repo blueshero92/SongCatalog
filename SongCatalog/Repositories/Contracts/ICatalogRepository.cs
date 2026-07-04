@@ -4,10 +4,8 @@ namespace SongCatalog.Repositories.Contracts
 {
     public interface ICatalogRepository
     {
-        List<Song> Catalog { get; }
+        List<Song> LoadCatalog(string filePath);
 
-        void LoadCatalog();
-
-        void SaveCatalog();
+        void SaveCatalog(string filePath, List<Song> catalog);
     }
 }

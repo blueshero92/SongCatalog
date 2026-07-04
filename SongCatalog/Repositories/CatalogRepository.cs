@@ -8,36 +8,29 @@ namespace SongCatalog.Repositories
 {
     public class CatalogRepository : ICatalogRepository
     {
-        //The path to the JSON file where the catalog is stored.
-        private static string path = JsonFilePath;
-
-        //The catalog of songs, which is a list of Song objects.
-        public List<Song> Catalog { get; private set; } 
-            = new List<Song>();
-
-        public void LoadCatalog()
+        public List<Song> LoadCatalog(string filePath)
         {
             //If the file does not exist, create an empty catalog.
-            if (!File.Exists(path))
+            if (!File.Exists(filePath))
             {
-                Catalog = new List<Song>();
-                return;
+                Console.WriteLine(FileDoesNotExistMessage);
+                return new List<Song>();
             }
 
             //If the file exists, read the contents.
-            string json = File.ReadAllText(path);
+            string json = File.ReadAllText(filePath);
 
             //Deserialize the JSON into a list of songs. If the file is empty or invalid, create an empty catalog.
-            Catalog = JsonConvert.DeserializeObject<List<Song>>(json) ?? new List<Song>();
+            return JsonConvert.DeserializeObject<List<Song>>(json) ?? new List<Song>();
         }
 
-        public void SaveCatalog()
+        public void SaveCatalog(string filePath, List<Song> catalog)
         {
             //Serialize the catalog to JSON with indentation for readability.
-            string json = JsonConvert.SerializeObject(Catalog, Formatting.Indented);
+            string json = JsonConvert.SerializeObject(catalog, Formatting.Indented);
 
             //Write the JSON to the file.
-            File.WriteAllText(path, json);
+            File.WriteAllText(filePath, json);
         }
     }
 }

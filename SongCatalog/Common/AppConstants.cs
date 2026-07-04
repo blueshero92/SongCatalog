@@ -3,7 +3,11 @@
     public static class AppConstants
     {
         //Json file path for storing the song catalog.
-        public static string JsonFilePath = "../../../Files/songCatalog.json";
+        public const string JsonFilePath = "../../../Files/song-catalog.json";
+
+        public const string JsonFilePathFriendCatalog = "../../../Files/friend.json";
+
+        public const string FileDoesNotExistMessage = "File does not exist.";
 
         //Variable to keep track of the song number in the catalog listing.
         public static int SongListNumber = 1;
@@ -49,6 +53,9 @@
 
         // Constant for catalog sorted by rating message.
         public const string CatalogSortedByRating = "Catalog sorted by song rating:";
+
+        // Constant for merge successful message.
+        public const string MergeSuccessfulMessage = "Friend catalog merged successfully.";
 
     }
 }
