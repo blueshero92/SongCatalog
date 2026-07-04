@@ -33,15 +33,19 @@ namespace SongCatalog
                 switch (command)
                 {
                     case "list":
-                        catalogService.ListCatalog();
+                        Console.WriteLine(catalogService.ListCatalog());
                         break;
 
                     case "add":
-                        catalogService.AddSong(args);
+                        Console.WriteLine(catalogService.AddSong(args));
                         break;
 
                     case "remove":
-                        catalogService.RemoveSong(args[1], args[2]);
+                        Console.WriteLine(catalogService.RemoveSong(args[1], args[2]));
+                        break;
+
+                    case "search":
+                        Console.WriteLine(catalogService.SearchSongs(args[1]));
                         break;
 
                 }

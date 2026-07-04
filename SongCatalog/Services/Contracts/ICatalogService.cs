@@ -3,9 +3,12 @@ namespace SongCatalog.Services.Contracts
 {
     public interface ICatalogService
     {
-        void ListCatalog();
-        void AddSong(string[] tokens);
+        string ListCatalog();
 
-        void RemoveSong(string title, string artistName);
+        string AddSong(string[] tokens);
+
+        string RemoveSong(string title, string artistName);
+
+        string SearchSongs(string searchQuery);
     }
 }
