@@ -48,14 +48,34 @@ namespace SongCatalog
                         break;
 
                     case "add":
+                        if (args.Length < 4)
+                        {
+                            Console.WriteLine(InvalidAddUsageMessage);
+                            break;
+                        }
+                        if (!float.TryParse(args[3], out float addRating))
+                        {
+                            Console.WriteLine(InvalidRatingFormatMessage);
+                            break;
+                        }
                         Console.WriteLine(catalogService.AddSong(args, myCatalog, undoHistory, redoHistory));
                         break;
 
                     case "remove":
+                        if (args.Length < 3)
+                        {
+                            Console.WriteLine(InvalidRemoveUsageMessage);
+                            break;
+                        }
                         Console.WriteLine(catalogService.RemoveSong(args[1], args[2], myCatalog, undoHistory, redoHistory));
                         break;
 
                     case "search":
+                        if (args.Length < 2)
+                        {
+                            Console.WriteLine(InvalidSearchUsageMessage);
+                            break;
+                        }
                         Console.WriteLine(catalogService.SearchSongs(args[1], myCatalog));
                         break;
 
@@ -70,17 +90,32 @@ namespace SongCatalog
                     case "sort rating":
                         Console.WriteLine(catalogService.SortCatalogByRating(myCatalog));
                         break;
-                    //Merge the user's catalog with a hardcoded friend's catalog.
+
                     case "merge":
                         Console.WriteLine(catalogService.MergeFriendCatalog(myCatalog, friendCatalog, undoHistory, redoHistory));
                         break;
-                    //Merge external catalog from a file path provided as the second argument.
+
                     case "merge external":
+                        if (args.Length < 2)
+                        {
+                            Console.WriteLine(InvalidMergeExternalUsageMessage);
+                            break;
+                        }
                         catalogService.MergeExternalCatalog(myCatalog, args[1], undoHistory, redoHistory);
                         break;
 
                     case "change rating":
-                        Console.WriteLine(catalogService.ChangeRating(args[1], args[2], float.Parse(args[3]), myCatalog));
+                        if (args.Length < 4)
+                        {
+                            Console.WriteLine(InvalidChangeRatingUsageMessage);
+                            break;
+                        }
+                        if (!float.TryParse(args[3], out float newRating))
+                        {
+                            Console.WriteLine(InvalidRatingFormatMessage);
+                            break;
+                        }
+                        Console.WriteLine(catalogService.ChangeRating(args[1], args[2], newRating, myCatalog));
                         break;
 
                     case "undo":
@@ -93,6 +128,10 @@ namespace SongCatalog
 
                     case "help":
                         Console.WriteLine(HelpMessage);
+                        break;
+
+                    default:
+                        Console.WriteLine(UnknownCommandMessage);
                         break;
                 }
 

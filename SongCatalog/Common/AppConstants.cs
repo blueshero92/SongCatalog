@@ -95,5 +95,18 @@
 
         public const string RatingChangedSuccessfullyMessage = "Rating for song \"{0}\" by \"{1}\" changed to {2} successfully.";
 
+        // Constant for unknown command message.
+        public const string UnknownCommandMessage = "Unknown command. Type 'help' for a list of available commands.";
+
+        // Constant for invalid rating format message.
+        public const string InvalidRatingFormatMessage = "Rating must be a valid number.";
+
+        // Usage hint messages for commands that require arguments.
+        public const string InvalidAddUsageMessage = "Usage: add|title|artist|rating";
+        public const string InvalidRemoveUsageMessage = "Usage: remove|title|artist";
+        public const string InvalidSearchUsageMessage = "Usage: search|keyword";
+        public const string InvalidMergeExternalUsageMessage = "Usage: merge external|filePath";
+        public const string InvalidChangeRatingUsageMessage = "Usage: change rating|title|artist|newRating";
+
     }
 }
