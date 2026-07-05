@@ -28,7 +28,7 @@ SongCatalog.exe
 ## Run on macOS
 
 1. Open Terminal.
-2. Go to the folder that contains the app files (SongCatalog, createdump, and the .dylib files).
+2. Go to the folder that contains the app files: song-catalog-v1.0.0-osx-arm64-self-contained or song-catalog-v1.0.0-osx-x64-self-contained
 3. Run:
 
 For first-time usage:
@@ -41,13 +41,18 @@ codesign --force --sign - *.dylib SongCatalog createdump
 ```
 
 Example: 
-cd /path/to/song-catalog-v1.0.0-osx-arm64-self-contained or /path/to/song-catalog-v1.0.0-osx-x64-self-contained
+Replace `/path/to/...` with the actual location where you extracted the release.
+
+```bash
+cd /path/to/song-catalog-v1.0.0-osx-arm64-self-contained
+# or
+cd /path/to/song-catalog-v1.0.0-osx-x64-self-contained
 
 chmod +x SongCatalog createdump
 xattr -dr com.apple.quarantine .
 codesign --force --sign - *.dylib SongCatalog createdump
 ./SongCatalog
-
+```
 
 > No installation or .NET SDK required.
 
