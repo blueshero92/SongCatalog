@@ -3,10 +3,13 @@
     public static class AppConstants
     {
         //Json file path for storing the song catalog. Path.Combine is used to create a platform-independent file path.
-        public static readonly string JsonFilePath = Path.Combine(AppContext.BaseDirectory, "Files", "song-catalog.json");
+        //public static readonly string JsonFilePath = Path.Combine(Environment.CurrentDirectory, "Files", "song-catalog.json");
+
+        public static readonly string JsonFilePath = "../../../Files/song-catalog.json";
+        public static readonly string JsonFilePathFriendCatalog = "../../../Files/friend-catalog.json";
 
         //Json file path for storing the friend catalog. Path.Combine is used to create a platform-independent file path.
-        public static readonly string JsonFilePathFriendCatalog = Path.Combine(AppContext.BaseDirectory, "Files", "friend-catalog.json");
+        //public static readonly string JsonFilePathFriendCatalog = Path.Combine(Environment.CurrentDirectory, "Files", "friend-catalog.json");
 
         //Constant for the message displayed when a file does not exist.
         public const string FileDoesNotExistMessage = "File does not exist.";
@@ -15,10 +18,10 @@
         public static int SongListNumber = 1;
 
         //Constant for the minimum rating value for a song.
-        public const int RatingMinValue = 1;
+        public const float RatingMinValue = 1;
 
         //Constant for the maximum rating value for a song.
-        public const int RatingMaxValue = 5;
+        public const float RatingMaxValue = 5;
 
         // Constant for invalid rating message, with placeholders for minimum and maximum rating values.
         public const string InvalidRatingMessage = "Rating must be between {0} and {1}.";

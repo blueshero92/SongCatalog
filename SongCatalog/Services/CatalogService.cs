@@ -1,5 +1,4 @@
-﻿using Newtonsoft.Json;
-using SongCatalog.Models;
+﻿using SongCatalog.Models;
 using SongCatalog.Repositories.Contracts;
 using SongCatalog.Services.Contracts;
 using System.Text;
@@ -39,7 +38,7 @@ namespace SongCatalog.Services
                                              .ThenBy(s => s.Title.ToLower())
                                              .ThenByDescending(s => s.Rating))
                 {
-                    sb.AppendLine($"{number}.{song.ArtistName} - {song.Title}, Rating: {song.Rating}");
+                    sb.AppendLine($"{number}.{song.ArtistName} - {song.Title}, Rating: {song.Rating:F2}");
                     number++;
                 }
             }
@@ -58,7 +57,7 @@ namespace SongCatalog.Services
             //Validate the input tokens.
             string songTitle = tokens[1];
             string artistName = tokens[2];
-            int rating = int.Parse(tokens[3]);
+            float rating = float.Parse(tokens[3]);
 
             //Check if the rating is within the valid range (1 to 5). If not, display an error message.
             if (rating < RatingMinValue || rating > RatingMaxValue)
@@ -173,7 +172,7 @@ namespace SongCatalog.Services
 
                 foreach (Song song in sortedCatalog)
                 {
-                    sortedByTitle.AppendLine($"{number}. {song.ArtistName} - {song.Title} - {song.Rating}");
+                    sortedByTitle.AppendLine($"{number}. {song.ArtistName} - {song.Title} - {song.Rating:F2}");
 
                     number++;
                 }
@@ -207,7 +206,7 @@ namespace SongCatalog.Services
 
                 foreach (Song song in sortedCatalog)
                 {
-                    sortedByTitle.AppendLine($"{number}. {song.Title} - {song.ArtistName} - {song.Rating}");
+                    sortedByTitle.AppendLine($"{number}. {song.Title} - {song.ArtistName} - {song.Rating:F2}");
                     number++;
                 }
             }
@@ -240,7 +239,7 @@ namespace SongCatalog.Services
 
                 foreach (Song song in sortedCatalog)
                 {
-                    sortedByRating.AppendLine($"{number}. {song.Title} - {song.ArtistName} - {song.Rating}");
+                    sortedByRating.AppendLine($"{number}. {song.Title} - {song.ArtistName} - {song.Rating:F2}");
                     number++;
                 }
             }

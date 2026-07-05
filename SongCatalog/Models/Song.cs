@@ -6,7 +6,7 @@ namespace SongCatalog.Models
 {
     public class Song
     {
-        public Song(string title, string artistName, int rating)
+        public Song(string title, string artistName, float rating)
         {
             Title = title;
             ArtistName = artistName;
@@ -18,6 +18,6 @@ namespace SongCatalog.Models
         public string ArtistName { get; set; } = null!;
 
         [Range(RatingMinValue, RatingMaxValue, ErrorMessage = InvalidRatingMessage)]
-        public int Rating { get; set; }
+        public float Rating { get; set; }
     }
 }
