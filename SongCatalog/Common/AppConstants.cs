@@ -3,15 +3,44 @@
     public static class AppConstants
     {
         //Json file path for storing the song catalog. Path.Combine is used to create a platform-independent file path.
-        //public static readonly string JsonFilePath = Path.Combine(Environment.CurrentDirectory, "Files", "song-catalog.json");
-
-        public static readonly string JsonFilePath = "../../../Files/song-catalog.json";
-        public static readonly string JsonFilePathFriendCatalog = "../../../Files/friend-catalog.json";
-        public static readonly string UndoHistoryFilePath = "../../../Files/undo-history.json";
-        public static readonly string RedoHistoryFilePath = "../../../Files/redo-history.json";
+        public static readonly string JsonFilePath = Path.Combine(AppContext.BaseDirectory, "Files", "song-catalog.json");
 
         //Json file path for storing the friend catalog. Path.Combine is used to create a platform-independent file path.
-        //public static readonly string JsonFilePathFriendCatalog = Path.Combine(Environment.CurrentDirectory, "Files", "friend-catalog.json");
+        public static readonly string JsonFilePathFriendCatalog = Path.Combine(AppContext.BaseDirectory, "Files", "friend-catalog.json");
+
+        //Json file path for storing the undo history. Path.Combine is used to create a platform-independent file path.
+        public static readonly string UndoHistoryFilePath = Path.Combine(AppContext.BaseDirectory, "Files", "undo-history.json");
+
+        //Json file path for storing the redo history. Path.Combine is used to create a platform-independent file path.
+        public static readonly string RedoHistoryFilePath = Path.Combine(AppContext.BaseDirectory, "Files", "redo-history.json");
+
+        //The following lines are commented out because they use relative paths that may not work correctly in all environments. 
+        //They are used for development purposes and can be uncommented if needed.
+
+        //public static readonly string JsonFilePath = "../../../Files/song-catalog.json";
+        //public static readonly string JsonFilePathFriendCatalog = "../../../Files/friend-catalog.json";
+        //public static readonly string UndoHistoryFilePath = "../../../Files/undo-history.json";
+        //public static readonly string RedoHistoryFilePath = "../../../Files/redo-history.json";
+
+
+        public const string HelpMessage = "Song Catalog CLI Help\r\n---------------------\r\n\r\n" +
+            "Commands use '|' as a separator.\r\n\r\nGENERAL COMMANDS\r\n-----------------\r\nlist\r\n" +
+            "Displays all songs in your catalog.\r\n\r\nadd|title|artist|rating\r\nAdds a new song to the catalog.\r\n" +
+            "Example: add|Numb|Linkin Park|5\r\n\r\nremove|title|artist\r\n" +
+            "Removes a song from the catalog.\r\n" +
+            "Example: remove|Numb|Linkin Park\r\n\r\nsearch|keyword\r\n" +
+            "Searches songs by title or artist (partial, case-insensitive).\r\n" +
+            "Example: search|linkin\r\n\r\nchange rating|title|artist|newRating\r\n" +
+            "Changes the rating of an existing song.\r\nExample: change rating|Numb|Linkin Park|4\r\n\r\nsort artist\r\n" +
+            "Sorts songs by artist name.\r\n\r\nsort title\r\nSorts songs by song title.\r\n\r\nsort rating\r\n" +
+            "Sorts songs by rating.\r\n\r\nMERGE COMMANDS\r\n---------------\r\nmerge\r\n" +
+            "Merges your catalog with the built-in friend catalog.\r\n\r\nmerge external|filePath\r\n" +
+            "Merges a catalog from an external file.\r\nExample: merge external|C:\\Users\\User\\Desktop\\catalog.json\r\n\r\nUNDO / REDO\r\n-----------\r\nundo\r\n" +
+            "Reverts the last change (add/remove/merge).\r\n\r\nredo\r\n" +
+            "Re-applies the last undone change.\r\n\r\nEXIT\r\n-----\r\nexit\r\n" +
+            "Closes the application.";
+
+        public const string OpeningMessage = "Welcome to the Song Catalog CLI! Type 'help' and press 'Enter' to get a small manual for using the tool.";
 
         //Constant for the message displayed when a file does not exist.
         public const string FileDoesNotExistMessage = "File does not exist.";

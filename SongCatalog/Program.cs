@@ -12,6 +12,8 @@ namespace SongCatalog
     {
         static void Main(string[] args)
         {
+            Console.WriteLine(OpeningMessage);
+
             //Create an instance of services and repositories to handle catalog operations and history tracking.
             IHistoryRepository historyRepository = new HistoryRepository();
             ICatalogRepository catalogRepository = new CatalogRepository();
@@ -87,6 +89,10 @@ namespace SongCatalog
 
                     case "redo":
                         catalogService.Redo(myCatalog, undoHistory, redoHistory);
+                        break;
+
+                    case "help":
+                        Console.WriteLine(HelpMessage);
                         break;
                 }
 
