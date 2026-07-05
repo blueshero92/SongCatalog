@@ -34,9 +34,7 @@ namespace SongCatalog.Services
             }
             else
             {
-                foreach (Song song in catalog.OrderBy(s => s.ArtistName.ToLower())
-                                             .ThenBy(s => s.Title.ToLower())
-                                             .ThenByDescending(s => s.Rating))
+                foreach (Song song in catalog)
                 {
                     sb.AppendLine($"{number}.{song.ArtistName} - {song.Title}, Rating: {song.Rating:F2}");
                     number++;
@@ -269,6 +267,28 @@ namespace SongCatalog.Services
             MergeFriendCatalog(myCatalog, friendCatalog);
 
             Console.WriteLine(MergeSuccessfulMessage);
+        }
+
+        public string ChangeRating(string title, string artistName, float newRating, List<Song> catalog)
+        {
+            //Find the song in the catalog based on the title and artist name (case-insensitive).
+            Song? song = catalog.SingleOrDefault(s => s.Title.Equals(title, StringComparison.InvariantCultureIgnoreCase) &&
+                                                      s.ArtistName.Equals(artistName, StringComparison.InvariantCultureIgnoreCase));
+
+            //If the song is not found, return -1 to indicate that the song does not exist in the catalog.
+            if (song == null)
+            {
+                return string.Format(SongNotFoundMessage, title, artistName);
+            }
+
+            //Update the rating of the found song.
+            song.Rating = newRating;
+
+            //Save the updated catalog to the JSON file.
+            catalogRepository.SaveCatalog(JsonFilePath, catalog);
+
+            //Return a message indicating that the rating has been changed successfully.
+            return string.Format(RatingChangedSuccessfullyMessage, title, artistName, newRating);
         }
     }
 }

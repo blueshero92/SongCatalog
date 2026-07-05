@@ -74,6 +74,9 @@ namespace SongCatalog
                         catalogService.MergeExternalCatalog(myCatalog, args[1]);
                         break;
 
+                    case "change rating":
+                        Console.WriteLine(catalogService.ChangeRating(args[1], args[2], float.Parse(args[3]), myCatalog));
+                        break;
                 }
 
                 //Read the next command from the console.

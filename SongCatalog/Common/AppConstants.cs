@@ -62,5 +62,7 @@
         // Constant for merge successful message.
         public const string MergeSuccessfulMessage = "Friend catalog merged successfully.";
 
+        public const string RatingChangedSuccessfullyMessage = "Rating for song \"{0}\" by \"{1}\" changed to {2} successfully.";
+
     }
 }

@@ -22,5 +22,7 @@ namespace SongCatalog.Services.Contracts
         string MergeFriendCatalog(List<Song> myCatalog, List<Song> friendCatalog);
 
         void MergeExternalCatalog(List<Song> myCatalog, string filePath);
+
+        string ChangeRating(string title, string artistName, float newRating, List<Song> catalog);
     }
 }
