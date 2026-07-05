@@ -12,13 +12,16 @@ namespace SongCatalog
     {
         static void Main(string[] args)
         {
-            //Create an instance of the CatalogRepository and CatalogService classes using Dependency Injection.
+            //Create an instance of services and repositories to handle catalog operations and history tracking.
+            IHistoryRepository historyRepository = new HistoryRepository();
             ICatalogRepository catalogRepository = new CatalogRepository();
-            ICatalogService catalogService = new CatalogService(catalogRepository);
+            ICatalogService catalogService = new CatalogService(catalogRepository, historyRepository);
 
             //Load the catalogs from the repository to ensure that they are populated with any existing songs before processing commands.
             List<Song> myCatalog = catalogRepository.LoadCatalog(JsonFilePath);
             List<Song> friendCatalog = catalogRepository.LoadCatalog(JsonFilePathFriendCatalog);
+            List<HistoryEntry> undoHistory = historyRepository.LoadHistory(UndoHistoryFilePath);
+            List<HistoryEntry> redoHistory = historyRepository.LoadHistory(RedoHistoryFilePath);
 
             //Read the command from the console and split it into an array of strings.
             args = Console.ReadLine()!.Split('|', StringSplitOptions.RemoveEmptyEntries).ToArray();
@@ -43,11 +46,11 @@ namespace SongCatalog
                         break;
 
                     case "add":
-                        Console.WriteLine(catalogService.AddSong(args, myCatalog));
+                        Console.WriteLine(catalogService.AddSong(args, myCatalog, undoHistory, redoHistory));
                         break;
 
                     case "remove":
-                        Console.WriteLine(catalogService.RemoveSong(args[1], args[2], myCatalog));
+                        Console.WriteLine(catalogService.RemoveSong(args[1], args[2], myCatalog, undoHistory, redoHistory));
                         break;
 
                     case "search":
@@ -67,15 +70,23 @@ namespace SongCatalog
                         break;
                     //Merge the user's catalog with a hardcoded friend's catalog.
                     case "merge":
-                        Console.WriteLine(catalogService.MergeFriendCatalog(myCatalog, friendCatalog));
+                        Console.WriteLine(catalogService.MergeFriendCatalog(myCatalog, friendCatalog, undoHistory, redoHistory));
                         break;
                     //Merge external catalog from a file path provided as the second argument.
                     case "merge external":
-                        catalogService.MergeExternalCatalog(myCatalog, args[1]);
+                        catalogService.MergeExternalCatalog(myCatalog, args[1], undoHistory, redoHistory);
                         break;
 
                     case "change rating":
                         Console.WriteLine(catalogService.ChangeRating(args[1], args[2], float.Parse(args[3]), myCatalog));
+                        break;
+
+                    case "undo":
+                        catalogService.Undo(myCatalog, undoHistory, redoHistory);
+                        break;
+
+                    case "redo":
+                        catalogService.Redo(myCatalog, undoHistory, redoHistory);
                         break;
                 }
 

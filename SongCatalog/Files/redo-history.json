@@ -1,0 +1,27 @@
+[
+  {
+    "OperationType": "Remove",
+    "Song": {
+      "Title": "Numb",
+      "ArtistName": "Linkin Park",
+      "Rating": 5.0
+    },
+    "Songs": null
+  },
+  {
+    "OperationType": "Merge",
+    "Song": null,
+    "Songs": [
+      {
+        "Title": "Numb",
+        "ArtistName": "Linkin Park",
+        "Rating": 5.0
+      },
+      {
+        "Title": "Unforgiven",
+        "ArtistName": "Metallica",
+        "Rating": 4.0
+      }
+    ]
+  }
+]

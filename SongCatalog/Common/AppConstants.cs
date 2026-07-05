@@ -7,6 +7,8 @@
 
         public static readonly string JsonFilePath = "../../../Files/song-catalog.json";
         public static readonly string JsonFilePathFriendCatalog = "../../../Files/friend-catalog.json";
+        public static readonly string UndoHistoryFilePath = "../../../Files/undo-history.json";
+        public static readonly string RedoHistoryFilePath = "../../../Files/redo-history.json";
 
         //Json file path for storing the friend catalog. Path.Combine is used to create a platform-independent file path.
         //public static readonly string JsonFilePathFriendCatalog = Path.Combine(Environment.CurrentDirectory, "Files", "friend-catalog.json");

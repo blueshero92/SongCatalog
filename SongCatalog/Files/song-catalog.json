@@ -1,17 +1,17 @@
 [
   {
+    "Title": "Believer",
+    "ArtistName": "3 Doors Down",
+    "Rating": 4.5
+  },
+  {
+    "Title": "Venom",
+    "ArtistName": "Eminem",
+    "Rating": 5.0
+  },
+  {
     "Title": "45",
     "ArtistName": "Shinedown",
-    "Rating": 5
-  },
-  {
-    "Title": "Wild Blue",
-    "ArtistName": "John Mayer",
-    "Rating": 4
-  },
-  {
-    "Title": "Numb",
-    "ArtistName": "Linkin Park",
-    "Rating": 5
+    "Rating": 5.0
   }
 ]
