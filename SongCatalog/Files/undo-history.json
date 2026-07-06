@@ -1,20 +1,2 @@
 [
-  {
-    "OperationType": "Add",
-    "Song": {
-      "Title": "Believer",
-      "ArtistName": "3 Doors Down",
-      "Rating": 4.5
-    },
-    "Songs": null
-  },
-  {
-    "OperationType": "Add",
-    "Song": {
-      "Title": "Venom",
-      "ArtistName": "Eminem",
-      "Rating": 5.0
-    },
-    "Songs": null
-  }
 ]
